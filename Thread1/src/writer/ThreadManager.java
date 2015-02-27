@@ -42,6 +42,7 @@ public class ThreadManager {
 
 		threadWorker = new ThreadWorker();
 		this.threadsWorking.add(threadWorker);
+		threadWorker.start();
 	}
 
 	/**

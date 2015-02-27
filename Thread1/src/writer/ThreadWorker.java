@@ -12,14 +12,15 @@ public class ThreadWorker extends Thread {
 	private long 			 threadId;
 	private long 		     sleepPeriod;
 	private long 			writesCounter;
-
+	private FileServer       fileServer;
+	
 	/**
 	 * Default Constructor.
 	 */
 	public ThreadWorker() {
 		this.threadName = this.getName();
 		this.threadId = this.getId();
-		FileServer.getInstance();
+		this.fileServer = FileServer.getInstance(); 
 	}
 
 	/**
@@ -33,7 +34,7 @@ public class ThreadWorker extends Thread {
 	public void run() {
 	//	while (!this.stopThread) {
 			try {
-				FileServer.writeToFile(this.threadName, this.threadId);
+				 this.fileServer.writeToFile(this.threadName, this.threadId);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

@@ -9,10 +9,11 @@ import writer.ThreadManager;
 public class Activator implements BundleActivator {
 	
 	private ThreadManager threadMenager;
+	private FileServer       fileServer;
 	
 	public Activator() {
 		  this.threadMenager = new ThreadManager();
-		  FileServer.getInstance();
+		  this.fileServer = FileServer.getInstance();
 		}
 	
 	/*
@@ -30,7 +31,7 @@ public class Activator implements BundleActivator {
 	 */
 	public void stop(BundleContext context) throws Exception {
 		this.threadMenager.abortAllThreads();
-		FileServer.close();
+		this.fileServer.close();
 	}
 
 }

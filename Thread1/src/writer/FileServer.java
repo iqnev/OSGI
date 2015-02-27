@@ -14,15 +14,15 @@ public class FileServer {
 	private static final String FILE_PATH = "threadLog.txt";
 
 	private static FileServer	instance;
-	private static BufferedWriter	writer;
-	private static File textFile;
+	private  BufferedWriter	writer;
+	private  File textFile;
 
 	private FileServer() {
-		 textFile = new File(FILE_PATH);
+		 this.textFile = new File(FILE_PATH);
 		
-		if (!textFile.exists()) {
+		if (!this.textFile.exists()) {
 			try {
-				textFile.createNewFile();
+				this.textFile.createNewFile();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -49,7 +49,7 @@ public class FileServer {
 	 * 
 	 * @return random sleep time in milliseconds.
 	 */
-	public static long getRandomSleepPeriod() {
+	public  long getRandomSleepPeriod() {
 		
 		return (long)(Math.random() * 1000);
 	}
@@ -64,23 +64,23 @@ public class FileServer {
 	 * @throws IOException 
 	 */
 	 
-	public static synchronized void writeToFile(String _threadName,
+	public synchronized void writeToFile(String _threadName,
 			long _threadId) throws IOException {
 		if (_threadName == null || _threadName.isEmpty()) {
 			throw new IllegalArgumentException("Illegal Thread name");
 		}
 		try {
-			writer = new BufferedWriter(new FileWriter(textFile, true));
+			this.writer = new BufferedWriter(new FileWriter(this.textFile, true));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		 writer.write(_threadName + "-" + _threadId + "\n"); 
-		 writer.close();
+		 this.writer.write(_threadName + "-" + _threadId + "\n"); 
+		 this.writer.close();
 
 	}
 
-	public static void close() throws IOException {
-		writer.close();
+	public  void close() throws IOException {
+		this.writer.close();
 	}
 }
