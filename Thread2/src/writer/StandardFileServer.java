@@ -21,11 +21,11 @@ public class StandardFileServer implements FileServer {
 	@SuppressWarnings("nls")
 	private static final String FILE_PATH = "/Users/iqnev/Downloads/workspace/Thread2/src/writer/threadLog.txt";
 
-	private File 				file;
-	private FileInputStream 	is;
-	private PrintWriter 		out;
-	private BufferedReader 		in;
-	private Semaphore 			lock;
+	private File 			file;
+	private FileInputStream is;
+	private PrintWriter 	out;
+	private BufferedReader 	in;
+	private Semaphore 		lock;
 
 	/**
 	 * Default Constructor.
