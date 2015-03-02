@@ -32,7 +32,7 @@ public class ThreadWorker extends Thread {
 
 	@Override
 	public void run() {
-	//	while (!this.stopThread) {
+		while (!this.stopThread) {
 			try {
 				 this.fileServer.writeToFile(this.threadName, this.threadId);
 			} catch (IOException e) {
@@ -42,7 +42,7 @@ public class ThreadWorker extends Thread {
 			this.writesCounter++;
 			this.sleepPeriod = FileServer.getRandomSleepPeriod();
 			this.sleepSilently(this.sleepPeriod);
-	//	}
+		}
 	}
 
 	private void sleepSilently(long _sleepTime) {

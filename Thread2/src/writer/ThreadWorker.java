@@ -8,48 +8,61 @@ package writer;
  *
  */
 public class ThreadWorker extends Thread {
-	private FileServer fileServer;
-	private volatile boolean stopThread;
-	private String threadName;
-	private long             sleepPeriod;
-	private long threadId;
+	  
+		private FileServer       fileServer;
+		private volatile boolean stopThread;
+		private long             sleepPeriod;
+		
+		/**
+		 * Default Constructor.
+		 * @param _fileServer the {@link StandardFileServer} in which to write.
+		 */
+		@SuppressWarnings("nls")
+	  public ThreadWorker(FileServer _fileServer) {
+		  if (_fileServer == null) {
+		    throw new NullPointerException("File Server is null");
+		  }
+		  
+			this.fileServer = _fileServer;
+		}
 
-	/**
-	 * Default Constructor.
-	 */
-	public ThreadWorker() {
-		this.threadName = this.getName();
-		this.threadId = this.getId();
-		this.fileServer = FileServer.getInstance();
-	}
+		/**
+		 * Stops the execution of the Thread.
+		 */
+		public void stopThread() {
+			this.stopThread = true;
+		}
 
-	/**
-	 * Stops the execution of the Thread.
-	 */
-	public void stopThread() {
-		this.stopThread = true;
-	}
+		@Override
+		public void run() {
+		  boolean success;
+		  
+		  while (!this.stopThread) {
+		    success = this.fileServer.writeToFile(this.getName());
+		    
+		    if (!success) {
+		      this.closeThread();
+		    }
+		    
+	      this.sleepPeriod = this.fileServer.getDefaultSleepPeriod();
+	      this.sleepSilently(this.sleepPeriod);
+		  }
+				
+		}
+		
+		/**
+		 * Stops the thread.
+		 */
+		public void closeThread() {
+		  this.stopThread = true;
+		}
 
-	@Override
-	public void run() {		
+		private boolean sleepSilently(long _sleepTime) {
 			try {
-				this.fileServer.writeToMiddle(this.threadName);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+				Thread.sleep(_sleepTime);
+			} catch (InterruptedException _e) {
+				return false;
 			}
-			this.sleepPeriod = this.fileServer.getRandomSleepPeriod();
-			this.sleepSilently(this.sleepPeriod);
-	}
-
-	private void sleepSilently(long _sleepTime) {
-		try {
-			Thread.sleep(_sleepTime);
-		} catch (InterruptedException _e) {
-			/*
-			 * Ignore the Exception. Nothing bad will happen if the Thread is
-			 * interuppted.
-			 */
-			_e.printStackTrace();
+			return true;
 		}
 	}
-}
